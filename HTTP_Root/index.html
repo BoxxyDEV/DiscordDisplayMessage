@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color:darkviolet;
+        color: white;
+    }
+
+    img {
+        float: left;
+        border-radius: 50%;
+        padding-right: 10px;
+    }
+</style>
+<body>
+    <img width="256" height="256" id="profile_picture" src="" alt="">
+    <h1 id="javascript_disabled">You're Browser May Not Be Supported</h1>
+    <h1 id="MSG_data"></h1>
+    <h3 id="USR_data"></h3>
+</body>
+<script>
+    document.getElementById('javascript_disabled').innerText = "";
+    function updatetext(){
+        const text_msg = new XMLHttpRequest();
+        text_msg.open("GET", "/text/message.txt?version=4");
+        text_msg.send();
+        text_msg.onreadystatechange = (e) =>{
+            if (text_msg.readyState == XMLHttpRequest.DONE)
+            {
+                var msg_text = text_msg.response;
+                document.getElementById("MSG_data").innerText = msg_text;
+            }};
+        const text_user = new XMLHttpRequest();
+        text_user.open("GET", "/text/user.txt?version=4");
+        text_user.send();
+        text_user.onreadystatechange = (e) =>{
+            if (text_user.readyState == XMLHttpRequest.DONE)
+            {
+                var user_text = text_user.response;
+                document.getElementById("USR_data").innerText = user_text;
+            }};
+        const text_image = new XMLHttpRequest();
+        text_image.open("GET", "/text/imageurl.txt?version=4");
+        text_image.send();
+        text_image.onreadystatechange = (e) =>{
+            if (text_image.readyState == XMLHttpRequest.DONE)
+            {
+                var user_image = text_image.response;
+                document.getElementById("profile_picture").src = user_image;
+            }};
+                
+    }
+    updatetext();
+    setTimeout(function(){
+        window.location.reload();
+    }, 5000)
+</script>
+</html>
